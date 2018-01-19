@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock", "Stock\Stock.csproj", "{FBA8B0CE-E5C0-4037-A75F-5B63502EA672}"
+EndProject
+Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "RStock", "RStock\RStock.rxproj", "{47C61007-6CE8-41AA-8A02-7791347E0C89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBA8B0CE-E5C0-4037-A75F-5B63502EA672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBA8B0CE-E5C0-4037-A75F-5B63502EA672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBA8B0CE-E5C0-4037-A75F-5B63502EA672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBA8B0CE-E5C0-4037-A75F-5B63502EA672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47C61007-6CE8-41AA-8A02-7791347E0C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47C61007-6CE8-41AA-8A02-7791347E0C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47C61007-6CE8-41AA-8A02-7791347E0C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47C61007-6CE8-41AA-8A02-7791347E0C89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
