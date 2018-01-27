@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Stock.BusinessRule;
 using Stock.Download;
 
 namespace Stock
@@ -37,12 +38,19 @@ namespace Stock
 			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=down&e=otc&n=100";
 			stocks = stocks.Concat(yd.GetStocks());
 			
+			
+
+			UpBusinessRule rule = new UpBusinessRule();
+
+			rule.Buy();
+			rule.Sale();
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			var form = new FormR();
 			form.Stocks = stocks;
 			form.InitListView();
 			Application.Run(form);
+
 			//var form = new Form1();
 			//form.Stocks = stocks;
 			//form.InitListView();

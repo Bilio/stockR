@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using RDotNet;
 using RDotNet.Devices;
 using RDotNet.Internals;
+using Stock.FilterRule;
 
 namespace Stock
 {
@@ -189,6 +190,7 @@ namespace Stock
 		private void button6_Click(object sender, EventArgs e)
 		{
 			iStock = int.Parse(textBox1.Text);
+			iStock = iStock - 1;
 			GoToWeb();
 		}
 
@@ -249,52 +251,19 @@ namespace Stock
 			this.button1_Click(sender, e);
 		}
 
+		/// <summary>
+		/// 線形過濾按鈕
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button11_Click(object sender, EventArgs e)
 		{
-			
-			string today = System.DateTime.Today.ToString("yyyy-MM-dd");
-			string yearAgo = System.DateTime.Today.AddYears(-1).ToString("yyyy-MM-dd");
-			string orcode = @"library(quantmod)
-			stock <- getSymbols('{0}.TW', auto.assign = FALSE,from='{1}')
-			ind <- apply(stock, 1, function(x) all(is.na(x)))
-			stock <- stock[!ind,]
-			ma5 <- runMean(stock[, 4], n = 5)
-			ma10 <- runMean(stock[, 4], n = 10)
-			ma20 <-runMean(stock[, 4], n = 20)
-			ma60 <- runMean(stock[, 4], n = 60)
-			c2 <- ifelse(last(ma5) > last(ma10) & last(ma10) > last(ma20) & last(ma20) > last(ma60), 1, 0)
-			c2";
-			//ifelse(c2 > 0, chartSeries(stock['{1}::{2}']))";
-
-
-
-			//engine.Evaluate(string.Format("png(file='{0}',bg ='transparent',width={1},height={2})", filename, this.pictureBox1.Width, this.pictureBox1.Height));
-
-
-
-
-			//engine.Evaluate("c2");
-			List<Stock> okList = new List<Stock>();
-			foreach (var s in Stocks)
-			{
-				try
-				{
-					REngine engine = REngine.GetInstance();
-					engine.Initialize();
-					string rcode = string.Format(orcode, s.Id, "2017-01-03", "2018-01-25");
-					var a = engine.Evaluate(rcode).AsCharacter().ToArray(); 
-					engine.Evaluate("dev.off");
-					if (a[0] == "1") {
-						okList.Add(s);
-					}
-				}
-				catch (Exception e2) {
-
-				}
-			}
-			this.Stocks = okList;
+			IFilterRule rule = new UpMaFilter();
+			this.Stocks = rule.Filter(this.Stocks);
+			this.Stocks = new UpPriceBuyFilter().Filter(this.Stocks);
 			InitListView();
 		}
+		
 
 		public void InitListView()
 		{
