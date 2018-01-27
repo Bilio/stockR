@@ -44,6 +44,32 @@ namespace Stock
 			InitializeComponent();
 		}
 
+		public void InitListView() {
+			foreach (var s in Stocks) {
+				//輸入資料
+				string type = GetStockType(s.Id); ;
+				ListViewItem item = new ListViewItem(s.Id + s.Name + " " + type); //ID   
+				if (type == "強勢股") {
+					item.BackColor = Color.Pink;
+				}else if(type == "強勢股") {
+					item.BackColor = Color.LightGreen;
+				}
+				else if (type == "盤整向上")
+				{
+					item.BackColor = Color.Yellow;
+				}
+				listView1.Items.Add(item);
+				
+			}
+			//自動調整欄位大小
+			//listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+		}
+
+		private void listView1_ItemActivate(object sender, EventArgs e)
+		{
+
+		}
+
 		public static bool TableExists(String tableName, SQLiteConnection connection)
 		{
 			SQLiteCommand cmd = connection.CreateCommand();
@@ -80,14 +106,16 @@ namespace Stock
 			label2.Text = GetStockType();
 		}
 
-		private string GetStockType() {
+		private string GetStockType(string stockId) {
 			string type = string.Empty;
 			sqlite_conn.Open();
 			sqlite_cmd = sqlite_conn.CreateCommand();
-			sqlite_cmd.CommandText = string.Format("SELECT type FROM Stocks WHERE id = '{0}'", Stock.Id);
+			sqlite_cmd.CommandText = string.Format("SELECT type FROM Stocks WHERE id = '{0}'", stockId);
 			var obj = sqlite_cmd.ExecuteScalar();
-			if (obj != null) {
-				switch (obj.ToString()) {
+			if (obj != null)
+			{
+				switch (obj.ToString())
+				{
 					case "2":
 						type = "盤整向上";
 						break;
@@ -101,6 +129,10 @@ namespace Stock
 			}
 			sqlite_conn.Close();
 			return type;
+		}
+
+		private string GetStockType() {
+			return GetStockType(Stock.Id);
 		}
 
 		/// <summary>
@@ -184,13 +216,16 @@ namespace Stock
 		{
 			iStock = -1;
 			this.Stocks = GetStocks("3");
+			InitListView();
 			this.button1_Click(sender, e);
+			
 		}
 
 		private void button9_Click(object sender, EventArgs e)
 		{
 			iStock = -1;
 			this.Stocks = GetStocks("4");
+			InitListView();
 			this.button1_Click(sender, e);
 		}
 
@@ -198,7 +233,13 @@ namespace Stock
 		{
 			iStock = -1;
 			this.Stocks = GetStocks("2");
+			InitListView();
 			this.button1_Click(sender, e);
+		}
+
+		private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

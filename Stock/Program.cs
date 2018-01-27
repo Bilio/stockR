@@ -41,7 +41,12 @@ namespace Stock
 			Application.SetCompatibleTextRenderingDefault(false);
 			var form = new FormR();
 			form.Stocks = stocks;
+			form.InitListView();
 			Application.Run(form);
+			//var form = new Form1();
+			//form.Stocks = stocks;
+			//form.InitListView();
+			//Application.Run(form);
 		}
 	}
 }

@@ -41,9 +41,9 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.button11 = new System.Windows.Forms.Button();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.listView1 = new System.Windows.Forms.ListView();
+			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.SuspendLayout();
 			// 
 			// button10
@@ -172,14 +172,6 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
-			// pictureBox1
-			// 
-			this.pictureBox1.Location = new System.Drawing.Point(244, 59);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(891, 417);
-			this.pictureBox1.TabIndex = 29;
-			this.pictureBox1.TabStop = false;
-			// 
 			// button11
 			// 
 			this.button11.Location = new System.Drawing.Point(134, 59);
@@ -190,13 +182,30 @@
 			this.button11.UseVisualStyleBackColor = true;
 			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
+			// listView1
+			// 
+			this.listView1.Location = new System.Drawing.Point(225, 59);
+			this.listView1.Name = "listView1";
+			this.listView1.Size = new System.Drawing.Size(98, 412);
+			this.listView1.TabIndex = 31;
+			this.listView1.UseCompatibleStateImageBehavior = false;
+			// 
+			// webBrowser1
+			// 
+			this.webBrowser1.Location = new System.Drawing.Point(329, 59);
+			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+			this.webBrowser1.Name = "webBrowser1";
+			this.webBrowser1.Size = new System.Drawing.Size(806, 412);
+			this.webBrowser1.TabIndex = 32;
+			// 
 			// FormR
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1165, 545);
+			this.Controls.Add(this.webBrowser1);
+			this.Controls.Add(this.listView1);
 			this.Controls.Add(this.button11);
-			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.button10);
 			this.Controls.Add(this.button9);
 			this.Controls.Add(this.button8);
@@ -212,7 +221,6 @@
 			this.Controls.Add(this.button1);
 			this.Name = "FormR";
 			this.Text = "FormR";
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -233,7 +241,8 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Button button11;
+		private System.Windows.Forms.ListView listView1;
+		private System.Windows.Forms.WebBrowser webBrowser1;
 	}
 }
