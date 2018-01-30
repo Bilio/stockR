@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Stock.BusinessRule;
 
 namespace Stock
 {
@@ -45,6 +46,7 @@ namespace Stock
 		}
 
 		public void InitListView() {
+			listView1.Items.Clear();
 			foreach (var s in Stocks) {
 				//輸入資料
 				string type = GetStockType(s.Id); ;
@@ -166,7 +168,7 @@ namespace Stock
 			}
 			else
 			{
-				sqlite_cmd.CommandText = string.Format("insert into Stocks (id, name, type, createDate) values ('{0}','{1}','{3}' ,{2})", Stock.Id, Stock.Name, System.DateTime.Now.ToString("yyyy/MM/dd"), type);
+				sqlite_cmd.CommandText = string.Format("insert into Stocks (id, name, type, createDate, stockType) values ('{0}','{1}','{3}' ,{2},'{4}')", Stock.Id, Stock.Name, System.DateTime.Now.ToString("yyyy/MM/dd"), type, this.Stock.stockType);
 				sqlite_cmd.ExecuteNonQuery();
 			}
 			sqlite_conn.Close();
@@ -204,7 +206,8 @@ namespace Stock
 			{
 				Stock stock = new Stock() {
 					Id = reader["id"].ToString(),
-					Name = reader["name"].ToString()
+					Name = reader["name"].ToString(),
+					stockType = reader["stockType"].ToString()
 				};
 				stocks.Add(stock);
 			}
@@ -240,6 +243,16 @@ namespace Stock
 		private void listView1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 
+		}
+
+		private void button11_Click(object sender, EventArgs e)
+		{
+
+			UpBusinessRule rule = new UpBusinessRule();
+
+			rule.Buy();
+			rule.Sale();
+			label2.Text = "交易完成";
 		}
 	}
 }

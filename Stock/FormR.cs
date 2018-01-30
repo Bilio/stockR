@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using RDotNet;
 using RDotNet.Devices;
 using RDotNet.Internals;
+using Stock.BusinessRule;
 using Stock.FilterRule;
 
 namespace Stock
@@ -316,6 +317,15 @@ namespace Stock
 			}
 			sqlite_conn.Close();
 			return type;
+		}
+
+		private void button12_Click(object sender, EventArgs e)
+		{
+			UpBusinessRule rule = new UpBusinessRule();
+
+			rule.Buy();
+			rule.Sale();
+			label2.Text = "交易完成";
 		}
 	}
 }

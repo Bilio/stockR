@@ -37,5 +37,7 @@ namespace Stock
 		/// 量
 		/// </summary>
 		public float Vol { get; set; }
+
+		public string stockType { get; set; }
 	}
 }

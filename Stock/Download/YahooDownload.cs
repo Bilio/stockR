@@ -11,6 +11,8 @@ namespace Stock.Download
 	{
 		public string Url { get; set; }
 
+		public string stockType { get; set; }
+
 		public float? HighPrice { get; set; }
 		public float? LowPrice { get; set; }
 
@@ -36,7 +38,8 @@ namespace Stock.Download
 					Price = float.Parse(values[3]),
 					High = float.Parse(values[6]),
 					Low = float.Parse(values[7]),
-					Vol = float.Parse(values[9].Replace(",",string.Empty))
+					Vol = float.Parse(values[9].Replace(",",string.Empty)),
+					stockType = this.stockType
 				};
 				stocks.Add(stock);
 			}

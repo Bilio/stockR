@@ -30,31 +30,33 @@ namespace Stock
 			yd.HighPrice = 100;
 			yd.LowVol = 5000;
 			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=tse&n=100";
+			yd.stockType = "1";
 			stocks = yd.GetStocks();
 			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=down&e=tse&n=100";
+			yd.stockType = "1";
 			stocks = stocks.Concat(yd.GetStocks());
 			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=otc&n=100";
+			yd.stockType = "2";
 			stocks = stocks.Concat(yd.GetStocks());
 			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=down&e=otc&n=100";
+			yd.stockType = "2";
 			stocks = stocks.Concat(yd.GetStocks());
 			
 			
 
-			UpBusinessRule rule = new UpBusinessRule();
-
-			rule.Buy();
-			rule.Sale();
+			
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			var form = new FormR();
-			form.Stocks = stocks;
-			form.InitListView();
-			Application.Run(form);
 
-			//var form = new Form1();
+			//var form = new FormR();
 			//form.Stocks = stocks;
 			//form.InitListView();
 			//Application.Run(form);
+
+			var form = new Form1();
+			form.Stocks = stocks;
+			form.InitListView();
+			Application.Run(form);
 		}
 	}
 }

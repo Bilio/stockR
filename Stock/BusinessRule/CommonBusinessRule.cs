@@ -24,21 +24,22 @@ namespace Stock.BusinessRule
 				sqlite_cmd = sqlite_conn.CreateCommand();
 
 				// 要下的命令新增一個表
-				sqlite_cmd.CommandText = "CREATE Table Business  (" +
-					"seq int IDENTITY(1,1)  primary key," +
-					"id varchar(7) , " +
-					"date varchar(10), " +
-					"type varchar(1), " +
-					"status varchar(1), " +
-					"price float," +
-					"vol int," +
-					"fee int," +
-					"tax int," +
-					"income int," +
-					"increase int," +
-					"rate float," +
-					"modifyDate varchar(10)" +
-					");";
+				sqlite_cmd.CommandText = @"CREATE TABLE [Business] (
+					  [seq] INTEGER NOT NULL
+					, [id] nvarchar(7)  NULL
+					, [date] nvarchar(10)  NULL
+					, [type] nvarchar(1)  NULL
+					, [status] nvarchar(1)  NULL
+					, [price] float NULL
+					, [vol] int  NULL
+					, [fee] int  NULL
+					, [tax] int  NULL
+					, [income] int  NULL
+					, [increase] int  NULL
+					, [rate] float NULL
+					, [modifyDate] nvarchar(10)  NULL
+					, CONSTRAINT [sqlite_autoindex_Business_1] PRIMARY KEY ([seq])
+					);";
 
 
 				sqlite_cmd.ExecuteNonQuery();
@@ -66,7 +67,8 @@ namespace Stock.BusinessRule
 				Stock stock = new Stock()
 				{
 					Id = reader["id"].ToString(),
-					Name = reader["name"].ToString()
+					Name = reader["name"].ToString(),
+					stockType = reader["stockType"].ToString()
 				};
 				stocks.Add(stock);
 			}
@@ -83,7 +85,7 @@ namespace Stock.BusinessRule
 			List<Stock> stocks = new List<Stock>();
 			sqlite_conn.Open();
 			sqlite_cmd = sqlite_conn.CreateCommand();
-			sqlite_cmd.CommandText = string.Format("SELECT distinct b.* " +
+			sqlite_cmd.CommandText = string.Format("SELECT distinct b.*, a.price as buyPrice " +
 				"FROM Business a " +
 				"inner join Stocks b " +
 				"on a.id = b.id " +
@@ -94,7 +96,9 @@ namespace Stock.BusinessRule
 				Stock stock = new Stock()
 				{
 					Id = reader["id"].ToString(),
-					Name = reader["name"].ToString()
+					Name = reader["name"].ToString(),
+					Price = float.Parse(reader["buyPrice"].ToString()),
+					stockType = reader["stockType"].ToString()
 				};
 				stocks.Add(stock);
 			}
@@ -135,17 +139,20 @@ namespace Stock.BusinessRule
 
 		public void Sale(Product stock)
 		{
+			int buyCount = 0;
 			int allBuyIncome = 0;
 			sqlite_conn.Open();
 			sqlite_cmd = sqlite_conn.CreateCommand();
-			sqlite_cmd.CommandText = string.Format("SELECT top {1} * FROM Business WHERE id = '{0}' and type = 'B' and status = '0' ", stock.Id, stock.Vol);
+			sqlite_cmd.CommandText = string.Format("SELECT * FROM Business WHERE id = '{0}' and type = 'B' and status = '0' ", stock.Id);
 			SQLiteDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
-			while (reader.Read())
+			while (reader.Read() && buyCount <= stock.Vol)
 			{
-				int seq = int.Parse(reader["id"].ToString());
+				int seq = int.Parse(reader["seq"].ToString());
 				allBuyIncome += int.Parse(reader["income"].ToString());
-				sqlite_cmd.CommandText = string.Format("update Business set status = '1', modifyDate = '{1}' where seq = {0}", seq, System.DateTime.Now.ToString("yyyy/MM/dd"));
-				sqlite_cmd.ExecuteNonQuery();
+				SQLiteCommand sqlite_cmdSale = sqlite_conn.CreateCommand();
+				sqlite_cmdSale.CommandText = string.Format("update Business set status = '1', modifyDate = '{1}' where seq = {0}", seq, System.DateTime.Now.ToString("yyyy/MM/dd"));
+				sqlite_cmdSale.ExecuteNonQuery();
+				buyCount = buyCount + 1;
 			}
 			sqlite_conn.Close();
 

@@ -44,6 +44,7 @@
 			this.button11 = new System.Windows.Forms.Button();
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+			this.button12 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// button10
@@ -198,11 +199,22 @@
 			this.webBrowser1.Size = new System.Drawing.Size(806, 412);
 			this.webBrowser1.TabIndex = 32;
 			// 
+			// button12
+			// 
+			this.button12.Location = new System.Drawing.Point(29, 211);
+			this.button12.Name = "button12";
+			this.button12.Size = new System.Drawing.Size(108, 23);
+			this.button12.TabIndex = 33;
+			this.button12.Text = "強勢股自動交易";
+			this.button12.UseVisualStyleBackColor = true;
+			this.button12.Click += new System.EventHandler(this.button12_Click);
+			// 
 			// FormR
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1165, 545);
+			this.Controls.Add(this.button12);
 			this.Controls.Add(this.webBrowser1);
 			this.Controls.Add(this.listView1);
 			this.Controls.Add(this.button11);
@@ -244,5 +256,6 @@
 		private System.Windows.Forms.Button button11;
 		private System.Windows.Forms.ListView listView1;
 		private System.Windows.Forms.WebBrowser webBrowser1;
+		private System.Windows.Forms.Button button12;
 	}
 }
