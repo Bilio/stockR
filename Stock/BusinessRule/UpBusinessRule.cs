@@ -15,6 +15,7 @@ namespace Stock.BusinessRule
 			foreach (var s in GetStocks()) {
 				Product b = new Product();
 				b.Id = s.Id;
+				b.Name = s.Name;
 				b.Price = s.Price;
 				b.Vol = 1;
 				b.Date = System.DateTime.Now;
@@ -47,6 +48,7 @@ namespace Stock.BusinessRule
 			foreach (var s in upRule.Filter(GetBoughtStocks())) {
 				Product b = new Product();
 				b.Id = s.Id;
+				b.Name = s.Name;
 				b.Price = s.Price;
 				b.Vol = 1;
 				b.Date = System.DateTime.Now;

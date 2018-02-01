@@ -24,7 +24,13 @@ namespace Stock
 			switch ((sender as TabControl).SelectedIndex)
 			{
 				case 0:
-					
+					var formBig = new FormBig();
+					formBig.FormBorderStyle = FormBorderStyle.None;
+					formBig.ControlBox = false;
+					formBig.TopLevel = false;
+					formBig.Visible = true;
+					tabPage1.Controls.Add(formBig);
+					tabPage1.Show();
 					break;
 				case 1:
 					var form = new Form1();
@@ -32,8 +38,8 @@ namespace Stock
 					form.ControlBox = false;
 					form.TopLevel = false;
 					form.Visible = true;
-					tabPage1.Controls.Add(form);
-					tabPage1.Show();
+					tabPage2.Controls.Add(form);
+					tabPage2.Show();
 					break;
 			}
 		}

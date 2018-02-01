@@ -20,6 +20,8 @@ namespace Stock
 		/// </summary>
 		public string Id { get; set; }
 
+		public string Name { get; set; }
+
 		/// <summary>
 		/// B:買進
 		/// S:賣出
