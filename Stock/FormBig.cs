@@ -16,6 +16,7 @@ namespace Stock
 		public FormBig()
 		{
 			InitializeComponent();
+		//	webBrowser1.Url = new Uri(string.Format(@"https://histock.tw/stock/tcharti.aspx?no=0000&m=all"));
 		}
 
 		private void button1_Click(object sender, EventArgs e)

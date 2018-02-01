@@ -33,6 +33,7 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -80,11 +81,21 @@
 			this.label1.TabIndex = 4;
 			this.label1.Text = "label1";
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(13, 9);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(53, 12);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "今日成交";
+			// 
 			// FormBig
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1167, 513);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.listView1);
 			this.Controls.Add(this.button2);
@@ -104,5 +115,6 @@
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.ListView listView1;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
 	}
 }

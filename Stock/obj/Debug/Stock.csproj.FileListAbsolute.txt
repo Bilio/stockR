@@ -56,3 +56,5 @@ D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.exe
 D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.pdb
 D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.FormBusiness.resources
 D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.FormBig.resources
+D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.FormMoney.resources
+D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.FormT.resources

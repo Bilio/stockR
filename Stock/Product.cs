@@ -13,7 +13,7 @@ namespace Stock
 	{
 		public int Seq { get; set; }
 
-		public DateTime Date { get; set; }
+		public string Date { get; set; }
 
 		/// <summary>
 		/// 股票代碼
@@ -68,5 +68,7 @@ namespace Stock
 		/// 報酬率
 		/// </summary>
 		public float Rate { get; set; }
+
+		public string ModifyDate { get; set; }
 	}
 }

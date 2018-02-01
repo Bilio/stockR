@@ -54,6 +54,34 @@ namespace Stock.BusinessRule
 			cmd.Parameters.Add("@name", DbType.String).Value = tableName;
 			return (cmd.ExecuteScalar() != null);
 		}
+		public IEnumerable<Product> QueryProducts(DateTime startTime, DateTime endTime) {
+			List<Product> products = new List<Product>();
+			sqlite_conn.Open();
+			sqlite_cmd = sqlite_conn.CreateCommand();
+			sqlite_cmd.CommandText = string.Format("select a.*,b.name from business a inner join stocks b on a.id = b.id where date between '{0}' and '{1}'", startTime.ToString("yyyy/MM/dd"),endTime.ToString("yyyy/MM/dd"));
+			SQLiteDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			while (reader.Read())
+			{
+				Product p = new Product()
+				{
+					Id = reader["id"].ToString(),
+					Name = reader["name"].ToString(),
+					Price = float.Parse(reader["price"].ToString()),
+					Date = reader["date"].ToString(),
+					Type = reader["type"].ToString(),
+					Vol = int.Parse(reader["vol"].ToString()),
+					Fee = int.Parse(reader["fee"].ToString()),
+					Tax = int.Parse(reader["tax"].ToString()),
+					Income = int.Parse(reader["income"].ToString()),
+					Increase = int.Parse(reader["increase"].ToString()),
+					Rate = float.Parse(reader["rate"].ToString()),
+					ModifyDate = reader["modifyDate"].ToString()
+				};
+				products.Add(p);
+			}
+			sqlite_conn.Close();
+			return products;
+		}
 
 		public IEnumerable<Stock> GetStocks(string type)
 		{
@@ -132,7 +160,7 @@ namespace Stock.BusinessRule
 			stock.Type = "B";
 			stock.Status = "0";
 			stock.Fee = GetFee(stock);
-			stock.Date = System.DateTime.Now;
+			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd");
 			stock.Income = Convert.ToInt32(stock.Vol * 1000 * stock.Price) + stock.Fee;
 			Save(stock);
 		}
@@ -160,7 +188,7 @@ namespace Stock.BusinessRule
 			stock.Status = "1";
 			stock.Fee = GetFee(stock);
 			stock.Tax = GetTax(stock);
-			stock.Date = System.DateTime.Now;
+			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd"); ;
 			stock.Income = Convert.ToInt32(stock.Vol * 1000 * stock.Price) - stock.Fee - stock.Tax;
 			stock.Increase = stock.Income - allBuyIncome;
 			stock.Rate = stock.Increase / allBuyIncome;
@@ -172,7 +200,7 @@ namespace Stock.BusinessRule
 			sqlite_cmd = sqlite_conn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("insert into Business (id, date, type, price,vol,fee,tax,status,income,rate,modifyDate) " +
 				"values ('{0}','{1}','{2}' ,{3}, {4}, {5}, {6}, '{7}',{8},{9},'{10}')",
-				stock.Id, stock.Date.ToString("yyyy/MM/dd"), stock.Type, stock.Price, stock.Vol, stock.Fee, stock.Tax, stock.Status, stock.Income, stock.Rate,System.DateTime.Now.ToString("yyyy/MM/dd"));
+				stock.Id, stock.Date, stock.Type, stock.Price, stock.Vol, stock.Fee, stock.Tax, stock.Status, stock.Income, stock.Rate,System.DateTime.Now.ToString("yyyy/MM/dd"));
 			sqlite_cmd.ExecuteNonQuery();
 			sqlite_conn.Close();
 		}

@@ -43,8 +43,12 @@
 			this.button9 = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
 			this.listView1 = new System.Windows.Forms.ListView();
-			this.button11 = new System.Windows.Forms.Button();
 			this.button12 = new System.Windows.Forms.Button();
+			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -60,10 +64,10 @@
 			// 
 			// webBrowser1
 			// 
-			this.webBrowser1.Location = new System.Drawing.Point(123, 27);
+			this.webBrowser1.Location = new System.Drawing.Point(123, 56);
 			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
 			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(1025, 429);
+			this.webBrowser1.Size = new System.Drawing.Size(1025, 400);
 			this.webBrowser1.TabIndex = 2;
 			// 
 			// button2
@@ -135,7 +139,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(40, 9);
+			this.label2.Location = new System.Drawing.Point(44, 9);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(33, 12);
 			this.label2.TabIndex = 10;
@@ -155,7 +159,7 @@
 			// 
 			this.button8.Location = new System.Drawing.Point(9, 56);
 			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(75, 23);
+			this.button8.Size = new System.Drawing.Size(105, 23);
 			this.button8.TabIndex = 12;
 			this.button8.Text = "看強勢股";
 			this.button8.UseVisualStyleBackColor = true;
@@ -165,7 +169,7 @@
 			// 
 			this.button9.Location = new System.Drawing.Point(9, 85);
 			this.button9.Name = "button9";
-			this.button9.Size = new System.Drawing.Size(75, 23);
+			this.button9.Size = new System.Drawing.Size(105, 23);
 			this.button9.TabIndex = 13;
 			this.button9.Text = "看弱勢股";
 			this.button9.UseVisualStyleBackColor = true;
@@ -175,7 +179,7 @@
 			// 
 			this.button10.Location = new System.Drawing.Point(9, 114);
 			this.button10.Name = "button10";
-			this.button10.Size = new System.Drawing.Size(75, 23);
+			this.button10.Size = new System.Drawing.Size(105, 23);
 			this.button10.TabIndex = 14;
 			this.button10.Text = "看平盤股";
 			this.button10.UseVisualStyleBackColor = true;
@@ -183,26 +187,16 @@
 			// 
 			// listView1
 			// 
-			this.listView1.Location = new System.Drawing.Point(9, 172);
+			this.listView1.Location = new System.Drawing.Point(9, 143);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(105, 329);
+			this.listView1.Size = new System.Drawing.Size(105, 358);
 			this.listView1.TabIndex = 15;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
 			// 
-			// button11
-			// 
-			this.button11.Location = new System.Drawing.Point(9, 143);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(75, 23);
-			this.button11.TabIndex = 16;
-			this.button11.Text = "強勢股自動交易";
-			this.button11.UseVisualStyleBackColor = true;
-			this.button11.Click += new System.EventHandler(this.button11_Click);
-			// 
 			// button12
 			// 
-			this.button12.Location = new System.Drawing.Point(9, 27);
+			this.button12.Location = new System.Drawing.Point(502, 27);
 			this.button12.Name = "button12";
 			this.button12.Size = new System.Drawing.Size(75, 23);
 			this.button12.TabIndex = 17;
@@ -210,13 +204,59 @@
 			this.button12.UseVisualStyleBackColor = true;
 			this.button12.Click += new System.EventHandler(this.button12_Click);
 			// 
+			// textBox2
+			// 
+			this.textBox2.Location = new System.Drawing.Point(174, 27);
+			this.textBox2.Name = "textBox2";
+			this.textBox2.Size = new System.Drawing.Size(75, 22);
+			this.textBox2.TabIndex = 18;
+			this.textBox2.Text = "30";
+			// 
+			// textBox3
+			// 
+			this.textBox3.Location = new System.Drawing.Point(255, 27);
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(75, 22);
+			this.textBox3.TabIndex = 19;
+			this.textBox3.Text = "100";
+			// 
+			// textBox4
+			// 
+			this.textBox4.Location = new System.Drawing.Point(404, 27);
+			this.textBox4.Name = "textBox4";
+			this.textBox4.Size = new System.Drawing.Size(75, 22);
+			this.textBox4.TabIndex = 20;
+			this.textBox4.Text = "1000";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(139, 32);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(29, 12);
+			this.label3.TabIndex = 21;
+			this.label3.Text = "股價";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(357, 32);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(41, 12);
+			this.label4.TabIndex = 22;
+			this.label4.Text = "成交量";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1167, 513);
+			this.Controls.Add(this.label4);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.textBox4);
+			this.Controls.Add(this.textBox3);
+			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.button12);
-			this.Controls.Add(this.button11);
 			this.Controls.Add(this.listView1);
 			this.Controls.Add(this.button10);
 			this.Controls.Add(this.button9);
@@ -255,8 +295,12 @@
 		private System.Windows.Forms.Button button9;
 		private System.Windows.Forms.Button button10;
 		private System.Windows.Forms.ListView listView1;
-		private System.Windows.Forms.Button button11;
 		private System.Windows.Forms.Button button12;
+		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.TextBox textBox4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label4;
 	}
 }
 

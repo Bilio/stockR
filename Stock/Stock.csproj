@@ -103,6 +103,12 @@
     <Compile Include="FormBusiness.Designer.cs">
       <DependentUpon>FormBusiness.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormMoney.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMoney.Designer.cs">
+      <DependentUpon>FormMoney.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,12 @@
       <DependentUpon>FormR.cs</DependentUpon>
     </Compile>
     <Compile Include="FilterRule\IFilterRule.cs" />
+    <Compile Include="FormT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormT.Designer.cs">
+      <DependentUpon>FormT.cs</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -123,8 +135,14 @@
     <EmbeddedResource Include="FormBusiness.resx">
       <DependentUpon>FormBusiness.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormMoney.resx">
+      <DependentUpon>FormMoney.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormR.resx">
       <DependentUpon>FormR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormT.resx">
+      <DependentUpon>FormT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

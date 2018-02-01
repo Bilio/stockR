@@ -68,9 +68,11 @@ namespace Stock
 			//listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 		}
 
-		private void listView1_ItemActivate(object sender, EventArgs e)
+		private void GoToWeb()
 		{
-
+			webBrowser1.Url = new Uri(string.Format(@"https://so.cnyes.com/JavascriptGraphic/chartstudy.aspx?country=tw&market=tw&code={0}&divwidth=990&divheight=330", Stock.Id.ToString()));
+			label1.Text = string.Format("{0} {1} {2}/{3}", Stock.Id, Stock.Name, iStock, Stocks.Count()-1);
+			label2.Text = GetStockType();
 		}
 
 		public static bool TableExists(String tableName, SQLiteConnection connection)
@@ -88,11 +90,10 @@ namespace Stock
 		/// <param name="e"></param>
 		private void button1_Click(object sender, EventArgs e)
 		{
-		
-			iStock = iStock + 1;
-			webBrowser1.Url = new Uri(string.Format(@"https://so.cnyes.com/JavascriptGraphic/chartstudy.aspx?country=tw&market=tw&code={0}&divwidth=990&divheight=330", Stock.Id.ToString()));
-			label1.Text = string.Format("{0} {1} {2}/{3}", Stock.Id, Stock.Name, iStock, Stocks.Count());
-			label2.Text = GetStockType();
+			if (iStock < (Stocks.Count() - 1)) {
+				iStock = iStock + 1;
+			}
+			GoToWeb();
 		}
 
 		/// <summary>
@@ -102,11 +103,11 @@ namespace Stock
 		/// <param name="e"></param>
 		private void button2_Click(object sender, EventArgs e)
 		{
-			
-			iStock = iStock - 1;
-			webBrowser1.Url = new Uri(string.Format(@"https://so.cnyes.com/JavascriptGraphic/chartstudy.aspx?country=tw&market=tw&code={0}&divwidth=990&divheight=330", Stock.Id.ToString()));
-			label1.Text = string.Format("{0} {1} {2}/{3}", Stock.Id, Stock.Name,iStock,Stocks.Count());
-			label2.Text = GetStockType();
+			if (iStock > 0)
+			{
+				iStock = iStock - 1;
+			}
+			GoToWeb();
 		}
 
 		private string GetStockType(string stockId) {
@@ -178,9 +179,7 @@ namespace Stock
 		private void button6_Click(object sender, EventArgs e)
 		{
 			iStock = int.Parse(textBox1.Text);
-			webBrowser1.Url = new Uri(string.Format(@"https://so.cnyes.com/JavascriptGraphic/chartstudy.aspx?country=tw&market=tw&code={0}&divwidth=990&divheight=330", Stock.Id.ToString()));
-			label1.Text = string.Format("{0} {1} {2}/{3}", Stock.Id, Stock.Name, iStock, Stocks.Count());
-			label2.Text = GetStockType();
+			GoToWeb();
 		}
 
 		private void button7_Click(object sender, EventArgs e)
@@ -245,24 +244,15 @@ namespace Stock
 		{
 
 		}
-
-		private void button11_Click(object sender, EventArgs e)
-		{
-
-			UpBusinessRule rule = new UpBusinessRule();
-
-			rule.Buy();
-			rule.Sale();
-			label2.Text = "交易完成";
-		}
+		
 
 		private void button12_Click(object sender, EventArgs e)
 		{
 			IEnumerable<Stock> stocks = new List<Stock>();
 			YahooDownload yd = new YahooDownload();
-			yd.LowPrice = 30;
-			yd.HighPrice = 100;
-			yd.LowVol = 5000;
+			yd.LowPrice = int.Parse(textBox2.Text);
+			yd.HighPrice = int.Parse(textBox3.Text); ;
+			yd.LowVol = int.Parse(textBox4.Text); ;
 			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=tse&n=100";
 			yd.stockType = "1";
 			stocks = yd.GetStocks();
@@ -278,6 +268,7 @@ namespace Stock
 			this.Stocks = stocks;
 			this.iStock = -1;
 			InitListView();
+			button1_Click(sender, e);
 		}
 	}
 }
