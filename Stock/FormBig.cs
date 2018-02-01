@@ -16,6 +16,7 @@ namespace Stock
 		public FormBig()
 		{
 			InitializeComponent();
+			webBrowser1.Url = new Uri("http://www.luckstar.com.tw/Taiex/FTaiex.aspx");
 		//	webBrowser1.Url = new Uri(string.Format(@"https://histock.tw/stock/tcharti.aspx?no=0000&m=all"));
 		}
 
