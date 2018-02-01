@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
@@ -24,25 +25,29 @@ namespace Stock
 				return Stocks.ToList()[iStock];
 			}
 		}
+		//private SQLiteConnection sqlite_conn;
+		//private SQLiteCommand sqlite_cmd;
 
-		private SQLiteConnection sqlite_conn;
-		private SQLiteCommand sqlite_cmd;
+
+		private SqlConnection sqlConn;
 		public Form1()
 		{
-			sqlite_conn = new SQLiteConnection("Data source=database.db");
+			string strConn = "server=durantw.database.windows.net;database=Stock;User ID=duranhsieh;Password=Aa@123456;Trusted_Connection=False;Encrypt=True;";
+
+			sqlConn = new SqlConnection(strConn);
 			// Open
-			sqlite_conn.Open();
-			if (!TableExists("Stocks", sqlite_conn)){ 
-			// 要下任何命令先取得該連結的執行命令物件
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			//sqlConn.Open();
+			//if (!TableExists("Stocks", sqlite_conn)){ 
+			//// 要下任何命令先取得該連結的執行命令物件
+			//sqlite_cmd = sqlite_conn.CreateCommand();
 
-			// 要下的命令新增一個表
-			sqlite_cmd.CommandText = "CREATE Table Stocks  (id varchar(7) primary key, name nvarchar(10), type varchar(1), createDate datetime, modifyDate datetime);";
+			//// 要下的命令新增一個表
+			//sqlite_cmd.CommandText = "CREATE Table Stocks  (id varchar(7) primary key, name nvarchar(10), type varchar(1), createDate datetime, modifyDate datetime);";
 
 
-			sqlite_cmd.ExecuteNonQuery();
-			}
-			sqlite_conn.Close();
+			//sqlite_cmd.ExecuteNonQuery();
+			//}
+			//sqlite_conn.Close();
 			InitializeComponent();
 		}
 
@@ -112,8 +117,8 @@ namespace Stock
 
 		private string GetStockType(string stockId) {
 			string type = string.Empty;
-			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			sqlConn.Open();
+			var sqlite_cmd = sqlConn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT type FROM Stocks WHERE id = '{0}'", stockId);
 			var obj = sqlite_cmd.ExecuteScalar();
 			if (obj != null)
@@ -131,7 +136,7 @@ namespace Stock
 						break;
 				}
 			}
-			sqlite_conn.Close();
+			sqlConn.Close();
 			return type;
 		}
 
@@ -160,20 +165,20 @@ namespace Stock
 		}
 
 		private void SaveStock(string type) {
-			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			sqlConn.Open();
+			var sqlite_cmd = sqlConn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT * FROM Stocks WHERE id = '{0}'", Stock.Id);
 			if (sqlite_cmd.ExecuteScalar() != null)
 			{
-				sqlite_cmd.CommandText = string.Format("update Stocks set type = '{2}' , modifyDate = {1} where id = '{0}'", Stock.Id, System.DateTime.Now.ToString("yyyy/MM/dd"), type);
+				sqlite_cmd.CommandText = string.Format("update Stocks set type = '{2}' , modifyDate = '{1}' where id = '{0}'", Stock.Id, System.DateTime.Now.ToString("yyyy/MM/dd"), type);
 				sqlite_cmd.ExecuteNonQuery();
 			}
 			else
 			{
-				sqlite_cmd.CommandText = string.Format("insert into Stocks (id, name, type, createDate, stockType) values ('{0}','{1}','{3}' ,{2},'{4}')", Stock.Id, Stock.Name, System.DateTime.Now.ToString("yyyy/MM/dd"), type, this.Stock.stockType);
+				sqlite_cmd.CommandText = string.Format("insert into Stocks (id, name, type, createDate, stockType) values ('{0}',N'{1}','{2}' ,'{3}','{4}')", Stock.Id, Stock.Name, type, System.DateTime.Now.ToString("yyyy/MM/dd"),  this.Stock.stockType);
 				sqlite_cmd.ExecuteNonQuery();
 			}
-			sqlite_conn.Close();
+			sqlConn.Close();
 		}
 
 		private void button6_Click(object sender, EventArgs e)
@@ -184,24 +189,24 @@ namespace Stock
 
 		private void button7_Click(object sender, EventArgs e)
 		{
-			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			sqlConn.Open();
+			var sqlite_cmd = sqlConn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT * FROM Stocks WHERE id = '{0}'", Stock.Id);
 			if (sqlite_cmd.ExecuteScalar() != null)
 			{
 				sqlite_cmd.CommandText = string.Format("delete from Stocks where id = '{0}'", Stock.Id);
 				sqlite_cmd.ExecuteNonQuery();
 			}
-			sqlite_conn.Close();
+			sqlConn.Close();
 		}
 
 		private List<Stock> GetStocks(string type)
 		{
 			List<Stock> stocks = new List<Stock>();
-			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			sqlConn.Open();
+			var sqlite_cmd = sqlConn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT * FROM Stocks WHERE type = '{0}'", type);
-			SQLiteDataReader reader  = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			SqlDataReader reader  = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
 			while (reader.Read())
 			{
 				Stock stock = new Stock() {
@@ -211,7 +216,7 @@ namespace Stock
 				};
 				stocks.Add(stock);
 			}
-			sqlite_conn.Close();
+			sqlConn.Close();
 			return stocks;
 		}
 

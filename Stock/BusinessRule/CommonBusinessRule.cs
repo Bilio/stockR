@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -10,41 +11,40 @@ namespace Stock.BusinessRule
 {
 	public class CommonBusinessRule
 	{
-		private SQLiteConnection sqlite_conn;
-		private SQLiteCommand sqlite_cmd;
+		private SqlConnection sqlite_conn;
 
 		public CommonBusinessRule()
 		{
-			sqlite_conn = new SQLiteConnection("Data source=database.db");
-			// Open
-			sqlite_conn.Open();
-			if (!TableExists("Business", sqlite_conn))
-			{
-				// 要下任何命令先取得該連結的執行命令物件
-				sqlite_cmd = sqlite_conn.CreateCommand();
+			string strConn = "server=durantw.database.windows.net;database=Stock;User ID=duranhsieh;Password=Aa@123456;Trusted_Connection=False;Encrypt=True;";
 
-				// 要下的命令新增一個表
-				sqlite_cmd.CommandText = @"CREATE TABLE [Business] (
-					  [seq] INTEGER NOT NULL
-					, [id] nvarchar(7)  NULL
-					, [date] nvarchar(10)  NULL
-					, [type] nvarchar(1)  NULL
-					, [status] nvarchar(1)  NULL
-					, [price] float NULL
-					, [vol] int  NULL
-					, [fee] int  NULL
-					, [tax] int  NULL
-					, [income] int  NULL
-					, [increase] int  NULL
-					, [rate] float NULL
-					, [modifyDate] nvarchar(10)  NULL
-					, CONSTRAINT [sqlite_autoindex_Business_1] PRIMARY KEY ([seq])
-					);";
+			sqlite_conn = new SqlConnection(strConn);
+			//if (!TableExists("Business", sqlite_conn))
+			//{
+			//	// 要下任何命令先取得該連結的執行命令物件
+			//	sqlite_cmd = sqlite_conn.CreateCommand();
+
+			//	// 要下的命令新增一個表
+			//	sqlite_cmd.CommandText = @"CREATE TABLE [Business] (
+			//		  [seq] INTEGER NOT NULL
+			//		, [id] nvarchar(7)  NULL
+			//		, [date] nvarchar(10)  NULL
+			//		, [type] nvarchar(1)  NULL
+			//		, [status] nvarchar(1)  NULL
+			//		, [price] float NULL
+			//		, [vol] int  NULL
+			//		, [fee] int  NULL
+			//		, [tax] int  NULL
+			//		, [income] int  NULL
+			//		, [increase] int  NULL
+			//		, [rate] float NULL
+			//		, [modifyDate] nvarchar(10)  NULL
+			//		, CONSTRAINT [sqlite_autoindex_Business_1] PRIMARY KEY ([seq])
+			//		);";
 
 
-				sqlite_cmd.ExecuteNonQuery();
-			}
-			sqlite_conn.Close();
+			//	sqlite_cmd.ExecuteNonQuery();
+			//}
+			//sqlite_conn.Close();
 		}
 
 		public static bool TableExists(String tableName, SQLiteConnection connection)
@@ -57,9 +57,9 @@ namespace Stock.BusinessRule
 		public IEnumerable<Product> QueryProducts(DateTime startTime, DateTime endTime) {
 			List<Product> products = new List<Product>();
 			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			var sqlite_cmd = sqlite_conn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("select a.*,b.name from business a inner join stocks b on a.id = b.id where date between '{0}' and '{1}'", startTime.ToString("yyyy/MM/dd"),endTime.ToString("yyyy/MM/dd"));
-			SQLiteDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
 			while (reader.Read())
 			{
 				Product p = new Product()
@@ -87,9 +87,9 @@ namespace Stock.BusinessRule
 		{
 			List<Stock> stocks = new List<Stock>();
 			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			var sqlite_cmd = sqlite_conn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT * FROM Stocks WHERE type = '{0}'", type);
-			SQLiteDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
 			while (reader.Read())
 			{
 				Stock stock = new Stock()
@@ -112,13 +112,13 @@ namespace Stock.BusinessRule
 		{
 			List<Stock> stocks = new List<Stock>();
 			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			var sqlite_cmd = sqlite_conn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT distinct b.*, a.price as buyPrice " +
 				"FROM Business a " +
 				"inner join Stocks b " +
 				"on a.id = b.id " +
 				"WHERE b.type = '{0}' and a.type = 'B' and a.status = '0' ", type);
-			SQLiteDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
 			while (reader.Read())
 			{
 				Stock stock = new Stock()
@@ -170,14 +170,14 @@ namespace Stock.BusinessRule
 			int buyCount = 0;
 			int allBuyIncome = 0;
 			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			var sqlite_cmd = sqlite_conn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("SELECT * FROM Business WHERE id = '{0}' and type = 'B' and status = '0' ", stock.Id);
-			SQLiteDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
 			while (reader.Read() && buyCount <= stock.Vol)
 			{
 				int seq = int.Parse(reader["seq"].ToString());
 				allBuyIncome += int.Parse(reader["income"].ToString());
-				SQLiteCommand sqlite_cmdSale = sqlite_conn.CreateCommand();
+				var sqlite_cmdSale = sqlite_conn.CreateCommand();
 				sqlite_cmdSale.CommandText = string.Format("update Business set status = '1', modifyDate = '{1}' where seq = {0}", seq, System.DateTime.Now.ToString("yyyy/MM/dd"));
 				sqlite_cmdSale.ExecuteNonQuery();
 				buyCount = buyCount + 1;
@@ -197,7 +197,7 @@ namespace Stock.BusinessRule
 
 		public void Save(Product stock) {
 			sqlite_conn.Open();
-			sqlite_cmd = sqlite_conn.CreateCommand();
+			var sqlite_cmd = sqlite_conn.CreateCommand();
 			sqlite_cmd.CommandText = string.Format("insert into Business (id, date, type, price,vol,fee,tax,status,income,rate,modifyDate) " +
 				"values ('{0}','{1}','{2}' ,{3}, {4}, {5}, {6}, '{7}',{8},{9},'{10}')",
 				stock.Id, stock.Date, stock.Type, stock.Price, stock.Vol, stock.Fee, stock.Tax, stock.Status, stock.Income, stock.Rate,System.DateTime.Now.ToString("yyyy/MM/dd"));
