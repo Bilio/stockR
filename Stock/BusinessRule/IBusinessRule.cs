@@ -20,8 +20,8 @@ namespace Stock.BusinessRule
 		/// <returns></returns>
 		IEnumerable<Stock> GetBoughtStocks();
 
-		void Buy();
+		IEnumerable<Product> Buy();
 
-		void Sale();
+		IEnumerable<Product> Sale();
 	}
 }

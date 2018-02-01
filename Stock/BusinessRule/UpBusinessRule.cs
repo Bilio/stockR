@@ -9,8 +9,9 @@ namespace Stock.BusinessRule
 {
 	public class UpBusinessRule : CommonBusinessRule, IBusinessRule
 	{
-		public void Buy()
+		public IEnumerable<Product> Buy()
 		{
+			List<Product> buys = new List<Product>();
 			foreach (var s in GetStocks()) {
 				Product b = new Product();
 				b.Id = s.Id;
@@ -18,7 +19,9 @@ namespace Stock.BusinessRule
 				b.Vol = 1;
 				b.Date = System.DateTime.Now;
 				Buy(b);
+				buys.Add(b);
 			}
+			return buys;
 		}
 
 		public IEnumerable<Stock> GetBoughtStocks()
@@ -37,8 +40,9 @@ namespace Stock.BusinessRule
 			return upAll;
 		}
 
-		public void Sale()
+		public IEnumerable<Product> Sale()
 		{
+			List<Product> sales = new List<Product>();
 			IFilterRule upRule = new UpSaleFilter();
 			foreach (var s in upRule.Filter(GetBoughtStocks())) {
 				Product b = new Product();
@@ -47,7 +51,9 @@ namespace Stock.BusinessRule
 				b.Vol = 1;
 				b.Date = System.DateTime.Now;
 				Sale(b);
+				sales.Add(b);
 			}
+			return sales;
 		}
 	}
 }

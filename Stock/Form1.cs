@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Stock.BusinessRule;
+using Stock.Download;
 
 namespace Stock
 {
@@ -253,6 +254,30 @@ namespace Stock
 			rule.Buy();
 			rule.Sale();
 			label2.Text = "交易完成";
+		}
+
+		private void button12_Click(object sender, EventArgs e)
+		{
+			IEnumerable<Stock> stocks = new List<Stock>();
+			YahooDownload yd = new YahooDownload();
+			yd.LowPrice = 30;
+			yd.HighPrice = 100;
+			yd.LowVol = 5000;
+			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=tse&n=100";
+			yd.stockType = "1";
+			stocks = yd.GetStocks();
+			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=down&e=tse&n=100";
+			yd.stockType = "1";
+			stocks = stocks.Concat(yd.GetStocks());
+			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=otc&n=100";
+			yd.stockType = "2";
+			stocks = stocks.Concat(yd.GetStocks());
+			yd.Url = @"https://tw.stock.yahoo.com/d/i/rank.php?t=down&e=otc&n=100";
+			yd.stockType = "2";
+			stocks = stocks.Concat(yd.GetStocks());
+			this.Stocks = stocks;
+			this.iStock = -1;
+			InitListView();
 		}
 	}
 }

@@ -91,6 +91,18 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormBig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBig.Designer.cs">
+      <DependentUpon>FormBig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBusiness.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBusiness.Designer.cs">
+      <DependentUpon>FormBusiness.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +116,12 @@
     <Compile Include="Stock.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBig.resx">
+      <DependentUpon>FormBig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBusiness.resx">
+      <DependentUpon>FormBusiness.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormR.resx">
       <DependentUpon>FormR.cs</DependentUpon>

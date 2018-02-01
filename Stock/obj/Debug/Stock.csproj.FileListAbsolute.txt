@@ -54,3 +54,5 @@ D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.Properties.Resources.resourc
 D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.csproj.GenerateResource.Cache
 D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.exe
 D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.pdb
+D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.FormBusiness.resources
+D:\個人\股票\Stock\stockR\Stock\obj\Debug\Stock.FormBig.resources
