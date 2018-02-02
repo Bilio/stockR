@@ -34,7 +34,10 @@ namespace Stock
 				table.Controls.Add(title, ic, 0);
 				ic = ic + 1;
 			}
-			int ir = 1;
+			table.Size = new Size(1140, 20);
+			panel1.Controls.Add(table);
+			table = new TableLayoutPanel();
+			int ir = 0;
 			foreach (var p in this.Products) {
 				Label title = new Label();
 				title.Text = p.Id;
@@ -82,7 +85,9 @@ namespace Stock
 				ir = ir + 1;
 			}
 			//table.Location = new Point(14, 43);
+			table.Top = 20;
 			table.Size = new Size(1140, 300);
+			table.AutoScroll = true;
 			panel1.Controls.Add(table);
 			Chart();
 			//this.Controls.Add(table);
