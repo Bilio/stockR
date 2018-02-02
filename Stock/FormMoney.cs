@@ -84,6 +84,7 @@ namespace Stock
 			//table.Location = new Point(14, 43);
 			table.Size = new Size(1140, 300);
 			panel1.Controls.Add(table);
+			Chart();
 			//this.Controls.Add(table);
 		}
 
@@ -118,6 +119,20 @@ namespace Stock
 		private void button3_Click(object sender, EventArgs e)
 		{
 			InitProductsTable(dateTimePicker1.Value, dateTimePicker2.Value);
+		}
+
+		private void Chart() {
+			chart1.Series[0].Points.Clear();
+			chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+			int sum = 0;
+			int c = 0;
+			var dayP = this.Products.GroupBy(x => x.Date);
+			double[] data1 = new double[dayP.Count()];
+			foreach (var p in dayP) {
+				sum += p.Sum(x=>x.Income);
+				chart1.Series[0].Points.AddXY(p.Key, sum);
+				c++;
+			}
 		}
 	}
 }
