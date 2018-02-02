@@ -49,6 +49,10 @@
 			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+			this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.button11 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -113,7 +117,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(121, 9);
+			this.label1.Location = new System.Drawing.Point(12, 32);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(33, 12);
 			this.label1.TabIndex = 7;
@@ -139,7 +143,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(44, 9);
+			this.label2.Location = new System.Drawing.Point(12, 9);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(33, 12);
 			this.label2.TabIndex = 10;
@@ -196,7 +200,7 @@
 			// 
 			// button12
 			// 
-			this.button12.Location = new System.Drawing.Point(502, 27);
+			this.button12.Location = new System.Drawing.Point(469, 5);
 			this.button12.Name = "button12";
 			this.button12.Size = new System.Drawing.Size(75, 23);
 			this.button12.TabIndex = 17;
@@ -206,7 +210,7 @@
 			// 
 			// textBox2
 			// 
-			this.textBox2.Location = new System.Drawing.Point(174, 27);
+			this.textBox2.Location = new System.Drawing.Point(159, 6);
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(75, 22);
 			this.textBox2.TabIndex = 18;
@@ -214,7 +218,7 @@
 			// 
 			// textBox3
 			// 
-			this.textBox3.Location = new System.Drawing.Point(255, 27);
+			this.textBox3.Location = new System.Drawing.Point(240, 6);
 			this.textBox3.Name = "textBox3";
 			this.textBox3.Size = new System.Drawing.Size(75, 22);
 			this.textBox3.TabIndex = 19;
@@ -222,7 +226,7 @@
 			// 
 			// textBox4
 			// 
-			this.textBox4.Location = new System.Drawing.Point(404, 27);
+			this.textBox4.Location = new System.Drawing.Point(388, 6);
 			this.textBox4.Name = "textBox4";
 			this.textBox4.Size = new System.Drawing.Size(75, 22);
 			this.textBox4.TabIndex = 20;
@@ -231,7 +235,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(139, 32);
+			this.label3.Location = new System.Drawing.Point(124, 9);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(29, 12);
 			this.label3.TabIndex = 21;
@@ -240,17 +244,57 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(357, 32);
+			this.label4.Location = new System.Drawing.Point(341, 9);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(41, 12);
 			this.label4.TabIndex = 22;
 			this.label4.Text = "成交量";
+			// 
+			// dateTimePicker1
+			// 
+			this.dateTimePicker1.Location = new System.Drawing.Point(126, 32);
+			this.dateTimePicker1.Name = "dateTimePicker1";
+			this.dateTimePicker1.Size = new System.Drawing.Size(108, 22);
+			this.dateTimePicker1.TabIndex = 23;
+			// 
+			// dateTimePicker2
+			// 
+			this.dateTimePicker2.Location = new System.Drawing.Point(241, 32);
+			this.dateTimePicker2.Name = "dateTimePicker2";
+			this.dateTimePicker2.Size = new System.Drawing.Size(108, 22);
+			this.dateTimePicker2.TabIndex = 24;
+			// 
+			// comboBox1
+			// 
+			this.comboBox1.FormattingEnabled = true;
+			this.comboBox1.Items.AddRange(new object[] {
+            "",
+            "買進",
+            "賣出"});
+			this.comboBox1.Location = new System.Drawing.Point(356, 33);
+			this.comboBox1.Name = "comboBox1";
+			this.comboBox1.Size = new System.Drawing.Size(107, 20);
+			this.comboBox1.TabIndex = 25;
+			// 
+			// button11
+			// 
+			this.button11.Location = new System.Drawing.Point(469, 30);
+			this.button11.Name = "button11";
+			this.button11.Size = new System.Drawing.Size(75, 23);
+			this.button11.TabIndex = 26;
+			this.button11.Text = "查詢";
+			this.button11.UseVisualStyleBackColor = true;
+			this.button11.Click += new System.EventHandler(this.button11_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1167, 513);
+			this.Controls.Add(this.button11);
+			this.Controls.Add(this.comboBox1);
+			this.Controls.Add(this.dateTimePicker2);
+			this.Controls.Add(this.dateTimePicker1);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.textBox4);
@@ -301,6 +345,10 @@
 		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.DateTimePicker dateTimePicker1;
+		private System.Windows.Forms.DateTimePicker dateTimePicker2;
+		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.Button button11;
 	}
 }
 

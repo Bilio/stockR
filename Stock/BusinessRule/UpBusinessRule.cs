@@ -50,7 +50,7 @@ namespace Stock.BusinessRule
 				b.Id = s.Id;
 				b.Name = s.Name;
 				b.Price = s.Price;
-				b.Vol = 1;
+				b.Vol = int.Parse(s.Vol.ToString());
 				b.Date = System.DateTime.Now.ToString("yyyy/MM/dd"); 
 				Sale(b);
 				sales.Add(b);

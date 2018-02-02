@@ -17,8 +17,7 @@ namespace Stock.FilterRule
 			string yearAgo = System.DateTime.Today.AddYears(-1).ToString("yyyy-MM-dd");
 			string orcode = @"library(quantmod)
 			stock <- getSymbols('{0}.{2}', auto.assign = FALSE,from='{1}')
-			ind <- apply(stock, 1, function(x) all(is.na(x)))
-			stock <- stock[!ind,]
+			stock <- na.omit(stock)
 			ma5 <- runMean(stock[, 4], n = 5)
 			ma10 <- runMean(stock[, 4], n = 10)
 			ma20 <-runMean(stock[, 4], n = 20)

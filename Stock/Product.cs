@@ -9,7 +9,7 @@ namespace Stock
 	/// <summary>
 	/// 買進賣出
 	/// </summary>
-	public class Product
+	public class Product 
 	{
 		public int Seq { get; set; }
 
@@ -70,5 +70,6 @@ namespace Stock
 		public float Rate { get; set; }
 
 		public string ModifyDate { get; set; }
+		
 	}
 }

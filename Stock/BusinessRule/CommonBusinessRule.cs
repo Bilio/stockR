@@ -113,11 +113,12 @@ namespace Stock.BusinessRule
 			List<Stock> stocks = new List<Stock>();
 			sqlite_conn.Open();
 			var sqlite_cmd = sqlite_conn.CreateCommand();
-			sqlite_cmd.CommandText = string.Format("SELECT distinct b.*, a.price as buyPrice " +
+			sqlite_cmd.CommandText = string.Format("select b.id, b.name, b.stockType,sum(a.vol) as vol, avg(a.price) as buyPrice  " +
 				"FROM Business a " +
 				"inner join Stocks b " +
 				"on a.id = b.id " +
-				"WHERE b.type = '{0}' and a.type = 'B' and a.status = '0' ", type);
+				"WHERE b.type = '{0}' and a.type = 'B' and a.status = '0' " +
+				"group by b.id, b.name, b.stockType", type);
 			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
 			while (reader.Read())
 			{
@@ -126,10 +127,12 @@ namespace Stock.BusinessRule
 					Id = reader["id"].ToString(),
 					Name = reader["name"].ToString(),
 					Price = float.Parse(reader["buyPrice"].ToString()),
-					stockType = reader["stockType"].ToString()
+					stockType = reader["stockType"].ToString(),
+					Vol = float.Parse(reader["vol"].ToString())
 				};
 				stocks.Add(stock);
 			}
+			reader.Close();
 			sqlite_conn.Close();
 			return stocks;
 		}
@@ -162,25 +165,35 @@ namespace Stock.BusinessRule
 			stock.Fee = GetFee(stock);
 			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd");
 			stock.Income = Convert.ToInt32(stock.Vol * 1000 * stock.Price) + stock.Fee;
+			stock.Increase = -stock.Income;
 			Save(stock);
 		}
 
 		public void Sale(Product stock)
 		{
-			int buyCount = 0;
+			int buyCount = 1;
 			int allBuyIncome = 0;
 			sqlite_conn.Open();
 			var sqlite_cmd = sqlite_conn.CreateCommand();
-			sqlite_cmd.CommandText = string.Format("SELECT * FROM Business WHERE id = '{0}' and type = 'B' and status = '0' ", stock.Id);
-			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.CloseConnection);
-			while (reader.Read() && buyCount <= stock.Vol)
+			sqlite_cmd.CommandText = string.Format("SELECT top {1} * FROM Business WHERE id = '{0}' and type = 'B' and status = '0' ", stock.Id,stock.Vol);
+			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.Default);
+			string updateSql = string.Empty;
+			while (reader.Read())
 			{
 				int seq = int.Parse(reader["seq"].ToString());
 				allBuyIncome += int.Parse(reader["income"].ToString());
-				var sqlite_cmdSale = sqlite_conn.CreateCommand();
-				sqlite_cmdSale.CommandText = string.Format("update Business set status = '1', modifyDate = '{1}' where seq = {0}", seq, System.DateTime.Now.ToString("yyyy/MM/dd"));
-				sqlite_cmdSale.ExecuteNonQuery();
+				
+				updateSql += string.Format("update Business set status = '1', modifyDate = '{1}', increase = 0 where seq = {0}", seq, System.DateTime.Now.ToString("yyyy/MM/dd"));
+				
 				buyCount = buyCount + 1;
+			}
+			reader.Close();
+			//sqlite_conn.Open();
+			if (!string.IsNullOrEmpty(updateSql))
+			{
+				var sqlite_cmdSale = sqlite_conn.CreateCommand();
+				sqlite_cmdSale.CommandText = updateSql;
+				sqlite_cmdSale.ExecuteNonQuery();
 			}
 			sqlite_conn.Close();
 
@@ -191,16 +204,16 @@ namespace Stock.BusinessRule
 			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd"); ;
 			stock.Income = Convert.ToInt32(stock.Vol * 1000 * stock.Price) - stock.Fee - stock.Tax;
 			stock.Increase = stock.Income - allBuyIncome;
-			stock.Rate = stock.Increase / allBuyIncome;
+			stock.Rate = float.Parse(stock.Increase.ToString()) / float.Parse(allBuyIncome.ToString());
 			Save(stock);
 		}
 
 		public void Save(Product stock) {
 			sqlite_conn.Open();
 			var sqlite_cmd = sqlite_conn.CreateCommand();
-			sqlite_cmd.CommandText = string.Format("insert into Business (id, date, type, price,vol,fee,tax,status,income,rate,modifyDate) " +
-				"values ('{0}','{1}','{2}' ,{3}, {4}, {5}, {6}, '{7}',{8},{9},'{10}')",
-				stock.Id, stock.Date, stock.Type, stock.Price, stock.Vol, stock.Fee, stock.Tax, stock.Status, stock.Income, stock.Rate,System.DateTime.Now.ToString("yyyy/MM/dd"));
+			sqlite_cmd.CommandText = string.Format("insert into Business (id, date, type, price,vol,fee,tax,status,income,increase,rate,modifyDate) " +
+				"values ('{0}','{1}','{2}' ,{3}, {4}, {5}, {6}, '{7}',{8},{9}, {10},'{11}')",
+				stock.Id, stock.Date, stock.Type, stock.Price, stock.Vol, stock.Fee, stock.Tax, stock.Status, stock.Income, stock.Increase, stock.Rate,System.DateTime.Now.ToString("yyyy/MM/dd"));
 			sqlite_cmd.ExecuteNonQuery();
 			sqlite_conn.Close();
 		}

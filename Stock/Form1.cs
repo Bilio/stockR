@@ -275,5 +275,27 @@ namespace Stock
 			InitListView();
 			button1_Click(sender, e);
 		}
+
+		private void button11_Click(object sender, EventArgs e)
+		{
+			CommonBusinessRule cb = new CommonBusinessRule();
+			var a= comboBox1.SelectedIndex;
+			var ps = cb.QueryProducts(dateTimePicker1.Value, dateTimePicker2.Value);
+			if (a == 1) {
+				ps = ps.Where(x => x.Type == "B");
+			} else if (a == 2) {
+				ps = ps.Where(x => x.Type == "S");
+			}
+			this.Stocks = ps.Select(x=> new Stock() {
+				Id = x.Id,
+				Name = x.Name
+			}).Distinct();
+			this.iStock = -1;
+			InitListView();
+			if (this.Stocks.Count() > 0)
+			{
+				button1_Click(sender, e);
+			}
+		}
 	}
 }
