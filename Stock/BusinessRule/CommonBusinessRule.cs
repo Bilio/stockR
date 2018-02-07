@@ -164,8 +164,8 @@ namespace Stock.BusinessRule
 			stock.Status = "0";
 			stock.Fee = GetFee(stock);
 			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd");
-			stock.Income = Convert.ToInt32(stock.Vol * 1000 * stock.Price) + stock.Fee;
-			stock.Increase = -stock.Income;
+			stock.Income = -(Convert.ToInt32(stock.Vol * 1000 * stock.Price) + stock.Fee);
+			stock.Increase = stock.Income;
 			Save(stock);
 		}
 
