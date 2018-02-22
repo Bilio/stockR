@@ -73,7 +73,7 @@ namespace Stock.FilterRule
 				{
 					
 				}
-				Thread.Sleep(5 * 60 * 1000);
+				Thread.Sleep(2 * 60 * 1000);
 			}
 
 			return okList;
