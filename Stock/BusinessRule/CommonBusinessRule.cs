@@ -163,10 +163,14 @@ namespace Stock.BusinessRule
 			stock.Type = "B";
 			stock.Status = "0";
 			stock.Fee = GetFee(stock);
-			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd");
+			//stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd");
 			stock.Income = -(Convert.ToInt32(stock.Vol * 1000 * stock.Price) + stock.Fee);
+			int money = GetMoney();
+			
 			stock.Increase = stock.Income;
-			Save(stock);
+			if (Math.Abs(stock.Income) < money) {
+				Save(stock);
+			}
 		}
 
 		public void Sale(Product stock)
@@ -181,7 +185,7 @@ namespace Stock.BusinessRule
 			while (reader.Read())
 			{
 				int seq = int.Parse(reader["seq"].ToString());
-				allBuyIncome += int.Parse(reader["income"].ToString());
+				allBuyIncome += Math.Abs(int.Parse(reader["income"].ToString()));
 				
 				updateSql += string.Format("update Business set status = '1', modifyDate = '{1}', increase = 0 where seq = {0}", seq, System.DateTime.Now.ToString("yyyy/MM/dd"));
 				
@@ -201,7 +205,7 @@ namespace Stock.BusinessRule
 			stock.Status = "1";
 			stock.Fee = GetFee(stock);
 			stock.Tax = GetTax(stock);
-			stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd"); ;
+			//stock.Date = System.DateTime.Now.ToString("yyyy/MM/dd"); ;
 			stock.Income = Convert.ToInt32(stock.Vol * 1000 * stock.Price) - stock.Fee - stock.Tax;
 			stock.Increase = stock.Income - allBuyIncome;
 			stock.Rate = float.Parse(stock.Increase.ToString()) / float.Parse(allBuyIncome.ToString());
@@ -216,6 +220,29 @@ namespace Stock.BusinessRule
 				stock.Id, stock.Date, stock.Type, stock.Price, stock.Vol, stock.Fee, stock.Tax, stock.Status, stock.Income, stock.Increase, stock.Rate,System.DateTime.Now.ToString("yyyy/MM/dd"));
 			sqlite_cmd.ExecuteNonQuery();
 			sqlite_conn.Close();
+		}
+
+		/// <summary>
+		/// 取得餘額
+		/// </summary>
+		/// <returns></returns>
+		public int GetMoney()
+		{
+			int defaultMoney = 300000;
+			int allBuyIncome = 0;
+			string sql = @"select isnull(SUM(income),0) as income from Business";
+			sqlite_conn.Open();
+			var sqlite_cmd = sqlite_conn.CreateCommand();
+			sqlite_cmd.CommandText = sql;
+			SqlDataReader reader = sqlite_cmd.ExecuteReader(CommandBehavior.Default);
+			string updateSql = string.Empty;
+			while (reader.Read())
+			{
+				allBuyIncome += int.Parse(reader["income"].ToString());
+			}
+			reader.Close();
+			sqlite_conn.Close();
+			return defaultMoney + allBuyIncome;
 		}
 	}
 }

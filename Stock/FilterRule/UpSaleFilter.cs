@@ -65,7 +65,7 @@ namespace Stock.FilterRule
 			string today = now.ToString("yyyy-MM-dd");
 			string yearAgo = now.AddYears(-1).ToString("yyyy-MM-dd");
 			string orcode = @"library(quantmod)
-			stock <- getSymbols('{0}.{2}', auto.assign = FALSE,from='{1}')
+			stock <- getSymbols('{0}.{2}', auto.assign = FALSE,from='{1}',to='{3}')
 			stock <- na.omit(stock)
 			ma5 <- runMean(stock[, 4], n = 5)
 			ma10 <- runMean(stock[, 4], n = 10)
@@ -83,7 +83,7 @@ namespace Stock.FilterRule
 					string type = s.stockType == "1" ? "TW" : "TWO";
 					REngine engine = REngine.GetInstance();
 					engine.Initialize();
-					string rcode = string.Format(orcode, s.Id, yearAgo, type);
+					string rcode = string.Format(orcode, s.Id, yearAgo, type, today);
 					var a = engine.Evaluate(rcode).AsCharacter().ToArray();
 					var price = engine.Evaluate("price").AsCharacter().ToArray();
 					float nowPrice = float.Parse(price[0].ToString()); ;

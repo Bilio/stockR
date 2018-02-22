@@ -35,7 +35,7 @@ namespace Stock.BusinessRule
 				b.Name = s.Name;
 				b.Price = s.Price;
 				b.Vol = 1;
-				b.Date = System.DateTime.Now.ToString("yyyy/MM/dd"); ;
+				b.Date = today.ToString("yyyy/MM/dd"); ;
 				Buy(b);
 				buys.Add(b);
 			}
@@ -97,7 +97,7 @@ namespace Stock.BusinessRule
 				b.Name = s.Name;
 				b.Price = s.Price;
 				b.Vol = int.Parse(s.Vol.ToString());
-				b.Date = System.DateTime.Now.ToString("yyyy/MM/dd");
+				b.Date = today.ToString("yyyy/MM/dd");
 				Sale(b);
 				sales.Add(b);
 			}
