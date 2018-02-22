@@ -24,6 +24,7 @@ namespace Stock
 		{
 			label1.Text = "交易中";
 			UpBusinessRule rule = new UpBusinessRule();
+			
 			var Stocks = rule.Buy();
 			foreach (var s in Stocks)
 			{
@@ -46,6 +47,22 @@ namespace Stock
 				listView1.Items.Add(item);
 			}
 			label1.Text = "交易完成";
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			label1.Text = "交易中";
+			UpBusinessRule rule = new UpBusinessRule();
+			DateTime start = new DateTime(2017, 12, 1);
+			DateTime end = System.DateTime.Now;
+			while (start < end)
+			{
+				rule.Buy(start);
+				rule.Sale(start);
+				start = start.AddDays(1);
+			}
+			label1.Text = "交易完成";
+
 		}
 	}
 }
