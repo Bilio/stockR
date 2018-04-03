@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Stock.BusinessRule;
+using Stock.Temp;
 
 namespace Stock
 {
@@ -53,7 +54,7 @@ namespace Stock
 		{
 			label1.Text = "交易中";
 			UpBusinessRule rule = new UpBusinessRule();
-			DateTime start = new DateTime(2017, 12, 1);
+			DateTime start = new DateTime(2018, 2, 22);
 			DateTime end = System.DateTime.Now;
 			while (start < end)
 			{
@@ -63,6 +64,12 @@ namespace Stock
 			}
 			label1.Text = "交易完成";
 
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			AppParse ap = new AppParse();
+			ap.ParseB(textBox1.Text);
 		}
 	}
 }
